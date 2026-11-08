@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Offset Reminder</title>
+    <!-- Tailwind CSS for modern, romantic styling -->
+    <script src="https://jsdelivr.net"></script>
+    <!-- Alpine.js for page routing and state tracking -->
+    <script defer src="https://jsdelivr.net"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex items-center justify-center p-4 relative overflow-hidden"
+      x-data="{ 
+          currentPage: 'intro', 
+          passcodeAttempt: '',
+          passcodeError: false,
+          userRating: 0,
+          ratingSubmitted: false,
+
+          checkPasscode() {
+              if (this.passcodeAttempt.trim() === 'Abshley') {
+                  this.passcodeError = false;
+                  this.currentPage = 'poem';
+              } else {
+                  this.passcodeError = true;
+              }
+          }
+      }">
+
+    <!-- Background Decorative Glow Elements -->
+    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- MAIN VIEWPORT CONTAINER -->
+    <div class="w-full max-w-xl bg-slate-900/40 border border-slate-800/80 backdrop-blur-xl p-8 rounded-3xl shadow-2xl relative z-10 transition-all duration-500">
+
+        <!-- ================= PAGE 1: INTRODUCTION ================= -->
+        <div x-show="currentPage === 'intro'" x-transition class="text-center space-y-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 mb-2">
+                <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                </svg>
+            </div>
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-rose-200 via-slate-100 to-indigo-200 bg-clip-text text-transparent">
+                An Offset Reminder
+            </h1>
+            <p class="text-slate-400 leading-relaxed text-md">
+                This page serves as a gentle, quiet reminder. A reminder that love—when it reaches beyond the confines of a normal, casual text message—is something entirely awesome.
+            </p>
+            <div class="pt-4">
+                
+                    Continue
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2: IDENTITY VERIFICATION ================= -->
+        
+            <h2 class="text-2xl font-bold tracking-tight text-slate-200">Identity Verification</h2>
+            <p class="text-slate-400 text-md">Before proceeding any further into this space, we must confirm who is reading.</p>
+            <div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800 text-lg font-medium text-slate-300">
+                Are you MELLISA?
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                <button @click="currentPage = 'gatekeeper'" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-3 rounded-xl transition cursor-pointer">
+                    No
+                </button>
+                <button @click="currentPage = 'passcode'" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition cursor-pointer">
+                    Yes
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2A: ACCESS DENIED ================= -->
+        <div x-show="currentPage === 'gatekeeper'" x-transition class="text-center space-y-6">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 mb-2">
+                <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-red-400 tracking-tight">Access Denied</h2>
+            <p class="text-slate-400 leading-relaxed">
+                This system container holds configurations restricted exclusively to specific personnel. Access parameters cannot be loaded for unauthorized entities.
+            </p>
+            <div class="pt-4">
+                
+                    Return to Selection
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2B: PASSCODE CHECK ================= -->
+        <div x-show="currentPage === 'passcode'" x-transition class="space-y-6">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl font-bold tracking-tight text-slate-200">Security Clearance</h2>
+                <p class="text-sm text-slate-400">Please supply the designated passphrase to unlock your profile data.</p>
+            </div>
+            <form @submit.prevent="checkPasscode()" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Passcode</label>
+                    <input 
+                        type="password" 
+                        required 
+                        x-model="passcodeAttempt"
+                        class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-slate-700 tracking-widest text-center font-mono text-lg"
+                        placeholder="••••••••"
+                    />
+                </div>
+                <template x-if="passcodeError">
+                    <p class="text-red-400 text-xs font-semibold text-center">Incorrect passcode. Please try again.</p>
+                </template>
+                <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-indigo-600 hover:from-rose-500 hover:to-indigo-500 py-3 rounded-xl font-bold shadow-lg transition cursor-pointer">
+                    Verify Code
+                </button>
+            </form>
+            <div class="text-center pt-2">
+                
+                    Go Back
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: THE POEM ================= -->
+        <div x-show="currentPage === 'poem'" x-transition class="space-y-6 max-h-[75vh] flex flex-col justify-between">
+            <div class="text-center border-b border-slate-800/60 pb-4">
+                <span class="text-xs font-semibold uppercase tracking-widest text-rose-400">For Mellisa</span>
+                <h2 class="text-xl font-bold text-slate-200 mt-1">A Screen To A Family Tree</h2>
+            </div>
+            
+            <!-- Scrollable container for the poem lines -->
+            <div class="overflow-y-auto pr-2 space-y-4 text-center font-serif text-md md:text-lg text-slate-300 leading-relaxed italic max-h-[45vh] custom-scrollbar">
+                <p>They told me, "Don't fall," keep your heart locked away,<br>But you hit my phone and changed my whole day.</p>
+                <p>One little message had me feeling too much,<br>Trading the distance for a digital touch.</p>
+                <p>Late-night calls became my ultimate peace,<br>Watching the walls I built slowly cease.</p>
+                <p>They said it’s just pixels, it isn't quite real,<br>But they didn't know how you made my heart feel.</p>
+                <p>We laughed at the past while building our dreams,<br>Mending the fabric of life at the seams.</p>
+                <p>Even when clashing or arguing late,<br>I'd still choose you, girl, and accept our own fate.</p>
+                <p>If love is a gamble, I'm betting it all,<br>Proudly defying the warning to fall.</p>
+                <p>One day we'll show them the texts that we saved,<br>All of the late nights and plans that we paved.</p>
+                <p>They’ll see two young hearts on a glowing screen,<br>Becoming the greatest thing they've ever seen.</p>
+                <p>And when our kids ask how the story began,<br>We’ll say we were teenagers, holding a hand.</p>
+                <p>From a warning to destiny, bright and so free,<br>You grew a small screen to a family tree.</p>
+                <p>You became my forever, my whole reality.</p>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800/60">
+<button @click="currentPage = 'rating'" class="w-full bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-500 hover:to-rose-400 text-white font-semibold py-3 rounded-xl shadow-lg transition cursor-pointer">
+Continue to Rate This Poem
+
+
+Rate This Poem
+Please share your honest impressions below by assigning a star metric.
+<button
+@click="if(!ratingSubmitted) userRating = star"
+:disabled="ratingSubmitted"
+class="text-4xl transition transform active:scale-90 focus:outline-none cursor-pointer disabled:cursor-default"
+:class="star <= userRating ? 'text-amber-400' : 'text-slate-700'"
+>
+★
+
+
+<button @click="ratingSubmitted = true" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-3 rounded-xl transition cursor-pointer">
+Submit Score
+
+Score received. Thank you for reading and verifying this entry! ✨
+
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: rgba(0,0,0,0); }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(244, 63, 94, 0.2); border-radius: 9999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(244, 63, 94, 0.4); }
