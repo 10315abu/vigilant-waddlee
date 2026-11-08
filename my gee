@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Little Love Reminder</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: Georgia, serif;
+      color: #4c2638;
+      background: linear-gradient(135deg, #ffe1e9, #fff3dc);
+    }
+
+    .card {
+      width: min(100%, 680px);
+      padding: 36px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 22px;
+      box-shadow: 0 12px 40px rgba(105, 45, 70, 0.16);
+    }
+
+    h1 { color: #b4426b; }
+
+    p { line-height: 1.7; }
+
+    input {
+      width: min(100%, 320px);
+      margin: 12px 0;
+      padding: 12px 14px;
+      border: 1px solid #e7b4c4;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      margin: 8px;
+      padding: 11px 22px;
+      border: 0;
+      border-radius: 999px;
+      color: white;
+      background: #c75279;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover { background: #a83b62; }
+
+    .secondary { background: #8e7180; }
+
+    .error {
+      min-height: 24px;
+      color: #b4233d;
+      font-weight: bold;
+    }
+
+    .poem {
+      max-height: 55vh;
+      overflow-y: auto;
+      padding: 18px;
+      text-align: left;
+      white-space: pre-line;
+      background: #fff8fa;
+      border-radius: 14px;
+      line-height: 1.8;
+    }
+
+    .stars button {
+      padding: 8px;
+      color: #e4a900;
+      background: transparent;
+      font-size: 38px;
+    }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <section id="intro">
+      <h1>A Little Love Reminder 💌</h1>
+      <p>
+        This is an offline reminder that love beyond a normal text
+        can be something truly awesome.
+      </p>
+      <button onclick="showPage('namePage')">Continue</button>
+    </section>
+
+    <section id="namePage" hidden>
+      <h1>Before you continue…</h1>
+      <p>Are you MELLISA?</p>
+      <button onclick="showPage('passPage')">Yes</button>
+      <button class="secondary" onclick="denyAccess()">No</button>
+      <p class="error" id="nameMessage" aria-live="polite"></p>
+    </section>
+
+    <section id="passPage" hidden>
+      <h1>Passcode required 🔐</h1>
+      <p>Enter the passcode to read your message.</p>
+      <input id="passcode" type="password" placeholder="Passcode" />
+      <br />
+      <button onclick="checkPasscode()">Unlock</button>
+      <p class="error" id="passMessage" aria-live="polite"></p>
+    </section>
+
+    <section id="poemPage" hidden>
+      <h1>From a Warning to Destiny 💖</h1>
+      <div class="poem">They told me, "Don't fall," keep your heart locked away,
+But you hit my phone and changed my whole day.
+One little message had me feeling too much,
+Trading the distance for a digital touch.
+Late-night calls became my ultimate peace,
+Watching the walls I built slowly cease.
+They said it’s just pixels, it isn't quite real,
+But they didn't know how you made my heart feel.
+We laughed at the past while building our dreams,
+Mending the fabric of life at the seams.
+Even when clashing or arguing late,
+I'd still choose you, girl, and accept our own fate.
+If love is a gamble, I'm betting it all,
+Proudly defying the warning to fall.
+One day we'll show them the texts that we saved,
+All of the late nights and plans that we paved.
+They’ll see two young hearts on a glowing screen,
+Becoming the greatest thing they've ever seen.
+And when our kids ask how the story began,
+We’ll say we were teenagers, holding a hand.
+From a warning to destiny, bright and so free,
+You grew a small screen to a family tree.
+You became my forever, my whole reality.</div>
+      <button onclick="showPage('ratingPage')">Continue to rating</button>
+    </section>
+
+    <section id="ratingPage" hidden>
+      <h1>How would you rate it? 💕</h1>
+      <p>Choose a rating from 1 to 5 stars.</p>
+      <div class="stars" aria-label="Rate the poem">
+        <button aria-label="1 star" onclick="rate(1)">★</button>
+        <button aria-label="2 stars" onclick="rate(2)">★</button>
+        <button aria-label="3 stars" onclick="rate(3)">★</button>
+        <button aria-label="4 stars" onclick="rate(4)">★</button>
+        <button aria-label="5 stars" onclick="rate(5)">★</button>
+      </div>
+      <p id="ratingMessage" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <script>
+    function showPage(pageId) {
+      document.querySelectorAll("main section").forEach(section => {
+        section.hidden = section.id !== pageId;
+      });
+    }
+
+    function denyAccess() {
+      document.getElementById("nameMessage").textContent =
+        "Access denied. This reminder is for MELLISA.";
+    }
+
+    function checkPasscode() {
+      const entered = document.getElementById("passcode").value;
+      if (entered === "Abshley") {
+        showPage("poemPage");
+      } else {
+        document.getElementById("passMessage").textContent =
+          "That passcode isn't correct. Please try again.";
+      }
+    }
+
+    function rate(stars) {
+      document.getElementById("ratingMessage").textContent =
+        `Thank you for rating it ${stars} out of 5 stars! 💗`;
+    }
+
+    document.getElementById("passcode").addEventListener("keydown", event => {
+      if (event.key === "Enter") checkPasscode();
+    });
+  </script>
+</body>
+</html>
